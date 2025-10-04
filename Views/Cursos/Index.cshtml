@@ -9,6 +9,22 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="Cursos" asp-action="Index" method="get">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="text" name="searchString" class="form-control" placeholder="Buscar por nombre..." />
+        </div>
+        <div class="col-md-3">
+            <input type="number" name="minCreditos" class="form-control" placeholder="Créditos Mín." />
+        </div>
+        <div class="col-md-3">
+            <input type="number" name="maxCreditos" class="form-control" placeholder="Créditos Máx." />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
