@@ -7,7 +7,7 @@ using examen_parcial_programacion1.Data;
 
 #nullable disable
 
-namespace examen_parcial_programacion1.Data.Migrations
+namespace examen_parcial_programacion1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

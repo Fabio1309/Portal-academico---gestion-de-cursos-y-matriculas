@@ -8,86 +8,17 @@ using examen_parcial_programacion1.Data;
 
 #nullable disable
 
-namespace examen_parcial_programacion1.Data.Migrations
+namespace examen_parcial_programacion1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251004073741_AddCursoAndMatriculaModels")]
-    partial class AddCursoAndMatriculaModels
+    [Migration("20251004091323_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
-
-            modelBuilder.Entity("Curso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Codigo")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Creditos")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CupoMaximo")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<TimeOnly>("HorarioFin")
-                        .HasColumnType("TEXT");
-
-                    b.Property<TimeOnly>("HorarioInicio")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Codigo")
-                        .IsUnique();
-
-                    b.ToTable("Cursos", t =>
-                        {
-                            t.HasCheckConstraint("CK_Curso_Horario", "[HorarioFin] > [HorarioInicio]");
-                        });
-                });
-
-            modelBuilder.Entity("Matricula", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CursoId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UsuarioId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.HasIndex("CursoId", "UsuarioId")
-                        .IsUnique();
-
-                    b.ToTable("Matriculas");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -285,23 +216,73 @@ namespace examen_parcial_programacion1.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Matricula", b =>
+            modelBuilder.Entity("examen_parcial_programacion1.Models.Curso", b =>
                 {
-                    b.HasOne("Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<bool>("Activo")
+                        .HasColumnType("INTEGER");
 
-                    b.Navigation("Curso");
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Navigation("Usuario");
+                    b.Property<int>("Creditos")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CupoMaximo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<TimeOnly>("HorarioFin")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeOnly>("HorarioInicio")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Codigo")
+                        .IsUnique();
+
+                    b.ToTable("Cursos", t =>
+                        {
+                            t.HasCheckConstraint("CK_Curso_Horario", "[HorarioFin] > [HorarioInicio]");
+                        });
+                });
+
+            modelBuilder.Entity("examen_parcial_programacion1.Models.Matricula", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CursoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UsuarioId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.HasIndex("CursoId", "UsuarioId")
+                        .IsUnique();
+
+                    b.ToTable("Matriculas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -353,6 +334,25 @@ namespace examen_parcial_programacion1.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("examen_parcial_programacion1.Models.Matricula", b =>
+                {
+                    b.HasOne("examen_parcial_programacion1.Models.Curso", "Curso")
+                        .WithMany()
+                        .HasForeignKey("CursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Curso");
+
+                    b.Navigation("Usuario");
                 });
 #pragma warning restore 612, 618
         }
