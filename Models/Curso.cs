@@ -1,26 +1,28 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace examen_parcial_programacion1.Models
+namespace examen_parcial_programacion1.Models // Asegúrate que el namespace sea el correcto
 {
+    [Index(nameof(Codigo), IsUnique = true)]
     public class Curso
     {
         public int Id { get; set; }
-        
+
         [Required]
-        public string Codigo { get; set; } = string.Empty;
-        
+        public required string Codigo { get; set; } // <-- MODIFICADO
+
         [Required]
-        public string Nombre { get; set; } = string.Empty;
-        
-        public string? Descripcion { get; set; }
-        
+        public required string Nombre { get; set; } // <-- MODIFICADO
+
+        [Range(1, int.MaxValue)]
         public int Creditos { get; set; }
-        
+
+        [Range(1, 100)]
+        public int CupoMaximo { get; set; }
+
         public TimeOnly HorarioInicio { get; set; }
-        
         public TimeOnly HorarioFin { get; set; }
-        
-        // Relación con Matriculas
-        public ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
+
+        public bool Activo { get; set; } = true;
     }
 }

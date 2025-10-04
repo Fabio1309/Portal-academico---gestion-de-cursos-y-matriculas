@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using examen_parcial_programacion1.Data;
 
@@ -10,9 +11,11 @@ using examen_parcial_programacion1.Data;
 namespace examen_parcial_programacion1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251004083952_AddActivoAndCupoToCurso")]
+    partial class AddActivoAndCupoToCurso
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -259,13 +262,13 @@ namespace examen_parcial_programacion1.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Activa")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("CursoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Estado")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("FechaRegistro")
+                    b.Property<DateTime>("FechaMatricula")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UsuarioId")
