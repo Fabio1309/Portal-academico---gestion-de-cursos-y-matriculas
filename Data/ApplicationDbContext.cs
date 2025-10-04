@@ -1,18 +1,31 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-public DbSet<Curso> Cursos { get; set; }
-public DbSet<Matricula> Matriculas { get; set; }
+using examen_parcial_programacion1.Models;
 
-protected override void OnModelCreating(ModelBuilder builder)
+namespace examen_parcial_programacion1.Data
 {
-    base.OnModelCreating(builder);
+    public class ApplicationDbContext : IdentityDbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
 
-    // Restricción: Un usuario no puede matricularse dos veces en el mismo curso.
-    builder.Entity<Matricula>()
-        .HasIndex(m => new { m.CursoId, m.UsuarioId })
-        .IsUnique();
+        public DbSet<Curso> Cursos { get; set; }
+        public DbSet<Matricula> Matriculas { get; set; }
 
-    // Restricción: HorarioFin > HorarioInicio
-    builder.Entity<Curso>()
-        .ToTable(b => b.HasCheckConstraint("CK_Curso_Horario", "[HorarioFin] > [HorarioInicio]"));
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            // Restricción: Un usuario no puede matricularse dos veces en el mismo curso.
+            builder.Entity<Matricula>()
+                .HasIndex(m => new { m.CursoId, m.UsuarioId })
+                .IsUnique();
+
+            // Restricción: HorarioFin > HorarioInicio
+            builder.Entity<Curso>()
+                .ToTable(b => b.HasCheckConstraint("CK_Curso_Horario", "[HorarioFin] > [HorarioInicio]"));
+        }
+    }
 }
