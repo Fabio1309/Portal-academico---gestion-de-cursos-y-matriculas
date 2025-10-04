@@ -1,10 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - examen_parcial_programacion1</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Portal Académico</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/examen_parcial_programacion1.styles.css" asp-append-version="true" />
@@ -13,7 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">examen_parcial_programacion1</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Portal Académico</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,11 +23,31 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
+
+                        <!-- MODIFICACIÓN: Enlace al Catálogo de Cursos -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cursos" asp-action="Index">Catálogo de Cursos</a>
                         </li>
+
+                        <!-- MODIFICACIÓN: Enlace condicional al Panel de Coordinador -->
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Coordinador"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-area="" asp-controller="Coordinador" asp-action="Index">Panel Coordinador</a>
+                            </li>
+                        }
+
+                        <!-- MODIFICACIÓN: Enlace condicional para "Volver al último curso visitado" -->
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("LastCourseId") != null)
+                        {
+                            <li class="nav-item ms-auto">
+                                <a class="nav-link text-info" asp-controller="Cursos" asp-action="Details" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetString("LastCourseId")">
+                                    &#8617; Volver a @HttpContextAccessor.HttpContext.Session.GetString("LastCourseName")
+                                </a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -40,7 +62,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - examen_parcial_programacion1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Portal Académico
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -49,6 +71,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-<li class="nav-item">
-    <a class="nav-link text-dark" asp-area="" asp-controller="Cursos" asp-action="Index">Catálogo de Cursos</a>
-</li>
