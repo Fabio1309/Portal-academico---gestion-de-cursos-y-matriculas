@@ -60,6 +60,8 @@ namespace examen_parcial_programacion1.Controllers
             {
                 return NotFound();
             }
+            HttpContext.Session.SetString("LastCourseId", curso.Id.ToString());
+            HttpContext.Session.SetString("LastCourseName", curso.Nombre);
 
             return View(curso);
         }

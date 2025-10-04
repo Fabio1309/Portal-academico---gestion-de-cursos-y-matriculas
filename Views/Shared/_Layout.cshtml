@@ -25,24 +25,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-
-                        <!-- MODIFICACIÓN: Enlace al Catálogo de Cursos -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cursos" asp-action="Index">Catálogo de Cursos</a>
                         </li>
-
-                        <!-- MODIFICACIÓN: Enlace condicional al Panel de Coordinador -->
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Coordinador"))
+                    </ul>
+                    
+                    <!-- ¡LÓGICA NUEVA! Muestra el enlace si existe en la sesión -->
+                    <ul class="navbar-nav">
+                         @if (HttpContextAccessor.HttpContext?.Session.GetString("LastCourseId") != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-danger fw-bold" asp-area="" asp-controller="Coordinador" asp-action="Index">Panel Coordinador</a>
-                            </li>
-                        }
-
-                        <!-- MODIFICACIÓN: Enlace condicional para "Volver al último curso visitado" -->
-                        @if (HttpContextAccessor.HttpContext.Session.GetString("LastCourseId") != null)
-                        {
-                            <li class="nav-item ms-auto">
                                 <a class="nav-link text-info" asp-controller="Cursos" asp-action="Details" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetString("LastCourseId")">
                                     &#8617; Volver a @HttpContextAccessor.HttpContext.Session.GetString("LastCourseName")
                                 </a>
@@ -59,7 +51,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - Portal Académico
