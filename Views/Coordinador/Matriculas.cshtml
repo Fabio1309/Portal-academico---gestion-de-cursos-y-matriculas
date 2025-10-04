@@ -1,0 +1,42 @@
+@model IEnumerable<examen_parcial_programacion1.Models.Matricula>
+@{ ViewData["Title"] = "Gestión de Matrículas"; }
+
+<h1>Matrículas para el curso: @ViewBag.CursoNombre</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Estudiante</th>
+            <th>Fecha de Registro</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@item.Usuario?.Email</td>
+            <td>@item.FechaRegistro.ToShortDateString()</td>
+            <td>
+                <span class="badge @(item.Estado == EstadoMatricula.Confirmada ? "bg-success" : item.Estado == EstadoMatricula.Pendiente ? "bg-warning" : "bg-danger")">
+                    @item.Estado
+                </span>
+            </td>
+            <td>
+                @if (item.Estado == EstadoMatricula.Pendiente)
+                {
+                    <form asp-action="ConfirmarMatricula" method="post" style="display:inline;">
+                        <input type="hidden" name="matriculaId" value="@item.Id" />
+                        <button type="submit" class="btn btn-sm btn-success">Confirmar</button>
+                    </form>
+                    <form asp-action="CancelarMatricula" method="post" style="display:inline;">
+                        <input type="hidden" name="matriculaId" value="@item.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<div><a asp-action="Index">Volver a la lista de cursos</a></div>

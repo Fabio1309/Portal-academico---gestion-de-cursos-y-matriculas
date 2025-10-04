@@ -1,0 +1,18 @@
+@model examen_parcial_programacion1.Models.Curso
+@{ ViewData["Title"] = "Desactivar Curso"; }
+
+<h1>Desactivar Curso</h1>
+<h3>¿Estás seguro de que quieres desactivar este curso?</h3>
+<div>
+    <h4>Curso: @Model.Nombre</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Código</dt><dd class="col-sm-10">@Model.Codigo</dd>
+    </dl>
+    
+    <form asp-action="Deactivate">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Desactivar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver a la lista</a>
+    </form>
+</div>
