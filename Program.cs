@@ -19,7 +19,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>() // <-- AÑADIDO: Habilita la gestión de roles
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// 3. Configuración de Redis para Caché Distribuidas
+// 3. Configuración de Redis para Caché Distribuida
 var redisConnectionString = builder.Configuration["Redis_ConnectionString"];
 if (!string.IsNullOrEmpty(redisConnectionString))
 {
